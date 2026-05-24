@@ -749,10 +749,10 @@ export default function UniversalSettings() {
                         }
                         className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-blue-400 focus:outline-none"
                       >
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                        <option value="expert">Expert</option>
+                        <option value="beginner" className="bg-slate-950 text-white">Beginner</option>
+                        <option value="intermediate" className="bg-slate-950 text-white">Intermediate</option>
+                        <option value="advanced" className="bg-slate-950 text-white">Advanced</option>
+                        <option value="expert" className="bg-slate-950 text-white">Expert</option>
                       </select>
                     </div>
 
@@ -831,11 +831,11 @@ export default function UniversalSettings() {
                         }
                         className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-blue-400 focus:outline-none"
                       >
-                        <option value="English">English</option>
-                        <option value="Spanish">Español</option>
-                        <option value="French">Français</option>
-                        <option value="German">Deutsch</option>
-                        <option value="Chinese">中文</option>
+                        <option value="English" className="bg-slate-950 text-white">English</option>
+                        <option value="Spanish" className="bg-slate-950 text-white">Español</option>
+                        <option value="French" className="bg-slate-950 text-white">Français</option>
+                        <option value="German" className="bg-slate-950 text-white">Deutsch</option>
+                        <option value="Chinese" className="bg-slate-950 text-white">中文</option>
                       </select>
                     </div>
                     <div>
@@ -853,15 +853,15 @@ export default function UniversalSettings() {
                         }
                         className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-blue-400 focus:outline-none"
                       >
-                        <option value="UTC-8">Pacific Time (UTC-8)</option>
-                        <option value="UTC-5">Eastern Time (UTC-5)</option>
-                        <option value="UTC+0">
+                        <option value="UTC-8" className="bg-slate-950 text-white">Pacific Time (UTC-8)</option>
+                        <option value="UTC-5" className="bg-slate-950 text-white">Eastern Time (UTC-5)</option>
+                        <option value="UTC+0" className="bg-slate-950 text-white">
                           Greenwich Mean Time (UTC+0)
                         </option>
-                        <option value="UTC+1">
+                        <option value="UTC+1" className="bg-slate-950 text-white">
                           Central European Time (UTC+1)
                         </option>
-                        <option value="UTC+8">
+                        <option value="UTC+8" className="bg-slate-950 text-white">
                           China Standard Time (UTC+8)
                         </option>
                       </select>
