@@ -304,17 +304,16 @@ const LearnovaChatbot = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true); // This is the only one we need!
   const [messages, setMessages] = useState(() => [INITIAL_MESSAGE]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("general");
 
   
-
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
-  const t = isDarkMode ? themeStyles.dark : themeStyles.light;
+
 
   useEffect(() => {
     setMessages([
