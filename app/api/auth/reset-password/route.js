@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
+import { parseJSON } from "@/lib/error-handler";
+
+const MAX_RESET_PASSWORD_PAYLOAD_BYTES = 1024;
 
 export async function POST(request) {
   try {
-    const { email } = await request.json();
+    const { email } = await parseJSON(request, MAX_RESET_PASSWORD_PAYLOAD_BYTES);
 
     if (!email) {
       return NextResponse.json(
@@ -72,6 +75,13 @@ export async function POST(request) {
       message: "If an account exists with this email, a password reset link has been sent." 
     });
   } catch (error) {
+    if (error.statusCode) {
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: error.statusCode }
+      );
+    }
+
     console.error("Password reset error:", error);
     return NextResponse.json(
       { success: false, error: "An unexpected error occurred. Please try again." },
