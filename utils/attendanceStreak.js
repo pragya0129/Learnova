@@ -1,11 +1,13 @@
 function toUTCDay(date) {
   const d = new Date(date);
   return Date.UTC(
-    d.getFullYear(),
-    d.getMonth(),
-    d.getDate()
+    d.getUTCFullYear(),
+    d.getUTCMonth(),
+    d.getUTCDate()
   );
 }
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 export function calculateCurrentStreak(records) {
   const safeRecords = Array.isArray(records) ? records : [];
@@ -30,7 +32,7 @@ export function calculateCurrentStreak(records) {
 
   const latestDay = toUTCDay(unique[0].date);
   const today = toUTCDay(new Date());
-  const yesterday = today - 86400000;
+  const yesterday = today - MS_PER_DAY;
 
   if (latestDay < yesterday) return 0;
 
@@ -43,7 +45,7 @@ export function calculateCurrentStreak(records) {
       const status = r.status?.toLowerCase();
       if (status === "present" || status === "late") {
         streak++;
-        expectedDay -= 86400000;
+        expectedDay -= MS_PER_DAY;
       } else {
         break;
       }
@@ -59,10 +61,14 @@ export function calculateLongestStreak(records) {
   const safeRecords = Array.isArray(records) ? records : [];
   if (safeRecords.length === 0) return 0;
 
+  const filtered = safeRecords.filter((r) => r.date);
+  if (filtered.length === 0) return 0;
+
+  const sorted = [...filtered].sort((a, b) => new Date(b.date) - new Date(a.date));
+
   const unique = [];
   const seen = new Set();
-  for (const r of safeRecords) {
-    if (!r.date) continue;
+  for (const r of sorted) {
     const day = toUTCDay(r.date);
     if (!seen.has(day)) {
       seen.add(day);
@@ -85,7 +91,7 @@ export function calculateLongestStreak(records) {
     if (isAttended) {
       if (prevDay === null) {
         current = 1;
-      } else if (r.day - prevDay === 86400000) {
+      } else if (r.day - prevDay === MS_PER_DAY) {
         current++;
       } else {
         current = 1;
@@ -121,12 +127,26 @@ export function calculateConsistency(records) {
 
   if (monthRecords.length === 0) return 0;
 
-  const attended = monthRecords.filter((r) => {
+  const sorted = [...monthRecords].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const unique = [];
+  const seen = new Set();
+  for (const r of sorted) {
+    const day = toUTCDay(r.date);
+    if (!seen.has(day)) {
+      seen.add(day);
+      unique.push(r);
+    }
+  }
+
+  if (unique.length === 0) return 0;
+
+  const attended = unique.filter((r) => {
     const status = r.status?.toLowerCase();
     return status === "present" || status === "late";
   }).length;
 
-  return Math.round((attended / monthRecords.length) * 100);
+  return Math.round((attended / unique.length) * 100);
 }
 
 export function getBadge(consistency) {
